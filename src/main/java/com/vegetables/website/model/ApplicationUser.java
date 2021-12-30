@@ -5,7 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "applicationuser")
+@Table(name = "application_user")
 public class ApplicationUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class ApplicationUser {
     private String county;
     @Column
     @NotEmpty
-    private String postCode;
+    private String postcode;
     @Column(columnDefinition = "boolean default true")
     private Boolean billToDeliveryAddress;
     @Column
@@ -50,7 +50,7 @@ public class ApplicationUser {
     @Column
     private String billingCounty;
     @Column
-    private String billingPostCode;
+    private String billingPostcode;
 
     public ApplicationUser() {}
 
@@ -64,13 +64,13 @@ public class ApplicationUser {
         this.addressLineTwo = addressLineTwo;
         this.city = city;
         this.county = county;
-        this.postCode = postCode;
+        this.postcode = postcode;
         this.billToDeliveryAddress = billToDeliveryAddress;
         this.billingAddressLineOne = billingAddressLineOne;
         this.billingAddressLineTwo = billingAddressLineTwo;
         this.billingCity = billingCity;
         this.billingCounty = billingCounty;
-        this.billingPostCode = billingPostCode;
+        this.billingPostcode = billingPostcode;
     }
 
     public long getId() {
@@ -149,12 +149,12 @@ public class ApplicationUser {
         this.county = county;
     }
 
-    public String getPostCode() {
-        return postCode;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
     public Boolean getBillToDeliveryAddress() {
@@ -197,12 +197,12 @@ public class ApplicationUser {
         this.billingCounty = billingCounty;
     }
 
-    public String getBillingPostCode() {
-        return billingPostCode;
+    public String getBillingPostcode() {
+        return billingPostcode;
     }
 
-    public void setBillingPostCode(String billingPostCode) {
-        this.billingPostCode = billingPostCode;
+    public void setBillingPostcode(String billingPostcode) {
+        this.billingPostcode = billingPostcode;
     }
 
     @Override
@@ -218,13 +218,13 @@ public class ApplicationUser {
                 ", addressLineTwo='" + addressLineTwo + '\'' +
                 ", city='" + city + '\'' +
                 ", county='" + county + '\'' +
-                ", postCode='" + postCode + '\'' +
+                ", postcode='" + postcode + '\'' +
                 ", billToDeliveryAddress=" + billToDeliveryAddress +
                 ", billingAddressLineOne='" + billingAddressLineOne + '\'' +
                 ", billingAddressLineTwo='" + billingAddressLineTwo + '\'' +
                 ", billingCity='" + billingCity + '\'' +
                 ", billingCounty='" + billingCounty + '\'' +
-                ", billingPostCode='" + billingPostCode + '\'' +
+                ", billingPostcode='" + billingPostcode + '\'' +
                 '}';
     }
 }

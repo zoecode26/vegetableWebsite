@@ -4,6 +4,8 @@ import com.vegetables.website.dao.ApplicationUserDAO;
 import com.vegetables.website.model.ApplicationUser;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -13,8 +15,14 @@ public class UserController {
         this.applicationUserDAO = applicationUserDAO;
     }
 
+    @GetMapping("")
+    public Iterable<ApplicationUser> getUsers(){
+        return applicationUserDAO.findAll();
+    }
+
     @GetMapping("/{user_id}")
-    public ApplicationUser getUser(@PathVariable(value = "user_id") ApplicationUser user) {
-        return user;
+    public Optional<ApplicationUser> getUser(@PathVariable(value = "user_id") Long user) {
+        return applicationUserDAO.findById(user);
     }
 }
+
