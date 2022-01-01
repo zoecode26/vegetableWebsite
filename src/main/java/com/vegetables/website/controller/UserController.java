@@ -18,6 +18,11 @@ public class UserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    @GetMapping("")
+    public Iterable<ApplicationUser> getUsers() {
+        return applicationUserDAO.findAll();
+    }
+
     @GetMapping("/{user_id}")
     public Optional<ApplicationUser> getUser(@PathVariable(value = "user_id") Long user) {
         return applicationUserDAO.findById(user);
