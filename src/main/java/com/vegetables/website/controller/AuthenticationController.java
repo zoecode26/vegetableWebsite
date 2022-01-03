@@ -77,7 +77,7 @@ public class AuthenticationController {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .maxAge(3600)
+                .maxAge(10)
                 .domain("localhost")
                 .build();
 
@@ -85,14 +85,5 @@ public class AuthenticationController {
                 .ok()
                 .header(HttpHeaders.SET_COOKIE, springCookie.toString())
                 .build();
-    }
-
-    @GetMapping("/read-spring-cookie")
-    public String readCookie(
-            @CookieValue(name = "jwt-token") String userId) {
-        if (userId != null) {
-            return "index";
-        }
-        return null;
     }
 }
