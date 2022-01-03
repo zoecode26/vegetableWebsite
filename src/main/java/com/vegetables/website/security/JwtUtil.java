@@ -1,4 +1,4 @@
-package com.vegetables.website.util;
+package com.vegetables.website.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,7 +13,6 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-
     private String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {
@@ -49,7 +48,7 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String email = extractUsername(token);
+        return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
