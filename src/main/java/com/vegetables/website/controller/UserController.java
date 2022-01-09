@@ -21,8 +21,8 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}")
-    public Optional<ApplicationUser> getUser(@PathVariable(value = "user_id") Long user) {
-        return applicationUserDAO.findById(user);
+    public Optional<ApplicationUser> getUser(@PathVariable(value = "user_id") Long user_id) {
+        return applicationUserDAO.findById(user_id);
     }
 }
 

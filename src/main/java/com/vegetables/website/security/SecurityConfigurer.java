@@ -29,7 +29,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/users/*", "/users", "/sign-up", "/authenticate", "/login", "/read-spring-cookie").permitAll()
+                .antMatchers("/users/*", "/users", "/sign-up", "/authenticate", "/login", "/read-spring-cookie", "/vegetables", "/vegetables/*", "/boxes", "/boxes/*", "/boxed-vegetables", "/boxed-vegetables/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)

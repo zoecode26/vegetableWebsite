@@ -77,7 +77,7 @@ public class AuthenticationController {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .maxAge(10)
+                .maxAge(3600)
                 .domain("localhost")
                 .build();
 
