@@ -1,6 +1,7 @@
 package com.vegetables.website.controller;
 
 import com.vegetables.website.dao.BoxedVegetableDAO;
+import com.vegetables.website.model.BoxedVegetable;
 import com.vegetables.website.model.DisplayBox;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,16 +18,16 @@ public class BoxedVegetableController {
     }
 
     @GetMapping("")
-    public List<DisplayBox> getAllDisplayBoxes() {
-        return boxedVegetableDAO.findAllDisplayBoxes();
+    public Iterable<BoxedVegetable> getAllDisplayBoxes() {
+        return boxedVegetableDAO.findAll();
     }
 
     @GetMapping("/{box_id}")
-    public List<DisplayBox> getDisplayBox(@PathVariable(value = "box_id") Long box_id) {
-        List<DisplayBox> displayBoxes = boxedVegetableDAO.findAllDisplayBoxes();
+    public List<BoxedVegetable> getDisplayBox(@PathVariable(value = "box_id") Long box_id) {
+        Iterable<BoxedVegetable> displayBoxes = boxedVegetableDAO.findAll();
         List selectedDisplayBoxes = new ArrayList();
-        for (DisplayBox box: displayBoxes) {
-            if (box.getBox_id() == box_id) {
+        for (BoxedVegetable box: displayBoxes) {
+            if (box.getBoxId() == box_id) {
                 selectedDisplayBoxes.add(box);
             }
         }

@@ -11,4 +11,8 @@ public class StaticResourceController {
         return "index";
     }
 
+    @GetMapping("/address")
+    public String address() {
+        return "address";
+    }
 }

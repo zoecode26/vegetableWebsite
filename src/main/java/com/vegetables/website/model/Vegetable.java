@@ -10,6 +10,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "vegetables")
 public class Vegetable {
+
+    enum PriceBracket {
+        LOW,
+        MEDIUM,
+        HIGH
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -17,17 +24,28 @@ public class Vegetable {
     @Column
     @NotEmpty
     private String vegetableName;
+
     @Column
     @NotEmpty
-    private Float price;
+    private String priceBracket;
+
+    @Column
+    @NotEmpty
+    private String iconPath;
+
+    @Column
+    @NotEmpty
+    private String alt;
 
     public Vegetable() {
     }
 
-    public Vegetable(long id, @NotEmpty String vegetableName, @NotEmpty Float price) {
+    public Vegetable(long id, @NotEmpty String vegetableName, @NotEmpty String priceBracket, @NotEmpty String iconPath, @NotEmpty String alt) {
         this.id = id;
         this.vegetableName = vegetableName;
-        this.price = price;
+        this.priceBracket = priceBracket;
+        this.iconPath = iconPath;
+        this.alt = alt;
     }
 
     public long getId() {
@@ -46,12 +64,28 @@ public class Vegetable {
         this.vegetableName = vegetableName;
     }
 
-    public Float getPrice() {
-        return price;
+    public String getPriceBracket() {
+        return priceBracket;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setPriceBracket(String priceBracket) {
+        this.priceBracket = priceBracket;
+    }
+
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
+    }
+
+    public String getAlt() {
+        return alt;
+    }
+
+    public void setAlt(String alt) {
+        this.alt = alt;
     }
 
     @Override
@@ -59,12 +93,12 @@ public class Vegetable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vegetable vegetable = (Vegetable) o;
-        return id == vegetable.id && Objects.equals(vegetableName, vegetable.vegetableName) && Objects.equals(price, vegetable.price);
+        return id == vegetable.id && Objects.equals(vegetableName, vegetable.vegetableName) && priceBracket == vegetable.priceBracket && Objects.equals(iconPath, vegetable.iconPath) && Objects.equals(alt, vegetable.alt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, vegetableName, price);
+        return Objects.hash(id, vegetableName, priceBracket, iconPath, alt);
     }
 
     @Override
@@ -72,7 +106,10 @@ public class Vegetable {
         return "Vegetable{" +
                 "id=" + id +
                 ", vegetableName='" + vegetableName + '\'' +
-                ", price=" + price +
+                ", priceBracket=" + priceBracket +
+                ", iconPath='" + iconPath + '\'' +
+                ", alt='" + alt + '\'' +
                 '}';
     }
 }
+

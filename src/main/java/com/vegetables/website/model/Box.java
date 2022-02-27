@@ -1,10 +1,7 @@
 package com.vegetables.website.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,12 +15,32 @@ public class Box {
     @NotEmpty
     private String boxName;
 
+    @Column
+    @NotEmpty
+    private float price;
+
+    @Column
+    @NotEmpty
+    private String boxDescription;
+
+    @Column
+    @NotEmpty
+    private String imagePath;
+
+    @Column
+    @NotEmpty
+    private String alt;
+
     public Box() {
     }
 
-    public Box(long id, @NotEmpty String boxName) {
+    public Box(long id, @NotEmpty String boxName, @NotEmpty float price, @NotEmpty String boxDescription, @NotEmpty String imagePath, @NotEmpty String alt) {
         this.id = id;
         this.boxName = boxName;
+        this.price = price;
+        this.boxDescription = boxDescription;
+        this.imagePath = imagePath;
+        this.alt = alt;
     }
 
     public long getId() {
@@ -42,17 +59,49 @@ public class Box {
         this.boxName = boxName;
     }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getBoxDescription() {
+        return boxDescription;
+    }
+
+    public void setBoxDescription(String boxDescription) {
+        this.boxDescription = boxDescription;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getAlt() {
+        return alt;
+    }
+
+    public void setAlt(String alt) {
+        this.alt = alt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Box box = (Box) o;
-        return id == box.id && Objects.equals(boxName, box.boxName);
+        return id == box.id && Float.compare(box.price, price) == 0 && Objects.equals(boxName, box.boxName) && Objects.equals(boxDescription, box.boxDescription) && Objects.equals(imagePath, box.imagePath) && Objects.equals(alt, box.alt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, boxName);
+        return Objects.hash(id, boxName, price, boxDescription, imagePath, alt);
     }
 
     @Override
@@ -60,6 +109,10 @@ public class Box {
         return "Box{" +
                 "id=" + id +
                 ", boxName='" + boxName + '\'' +
+                ", price=" + price +
+                ", boxDescription='" + boxDescription + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", alt='" + alt + '\'' +
                 '}';
     }
 }

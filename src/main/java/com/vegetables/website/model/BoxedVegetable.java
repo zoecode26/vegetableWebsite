@@ -16,17 +16,13 @@ public class BoxedVegetable {
     @Column(name = "box_id")
     private Long boxId;
 
-    @Column(name = "quantity")
-    private int quantity;
-
     public BoxedVegetable() {
     }
 
-    public BoxedVegetable(Long id, Long vegetableId, Long boxId, int quantity) {
+    public BoxedVegetable(Long id, Long vegetableId, Long boxId) {
         this.id = id;
         this.vegetableId = vegetableId;
         this.boxId = boxId;
-        this.quantity = quantity;
     }
 
     public Long getId() {
@@ -53,21 +49,17 @@ public class BoxedVegetable {
         this.boxId = boxId;
     }
 
-    public int getQuantity() { return quantity; }
-
-    public void setQuantity(int quantity) { this.quantity = quantity; }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BoxedVegetable that = (BoxedVegetable) o;
-        return quantity == that.quantity && Objects.equals(id, that.id) && Objects.equals(vegetableId, that.vegetableId) && Objects.equals(boxId, that.boxId);
+        return Objects.equals(id, that.id) && Objects.equals(vegetableId, that.vegetableId) && Objects.equals(boxId, that.boxId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, vegetableId, boxId, quantity);
+        return Objects.hash(id, vegetableId, boxId);
     }
 
     @Override
@@ -76,7 +68,6 @@ public class BoxedVegetable {
                 "id=" + id +
                 ", vegetableId=" + vegetableId +
                 ", boxId=" + boxId +
-                ", quantity=" + quantity +
                 '}';
     }
 }

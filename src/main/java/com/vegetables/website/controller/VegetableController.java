@@ -15,12 +15,12 @@ public class VegetableController {
     }
 
     @GetMapping("")
-    public Iterable<Vegetable> getUsers() {
+    public Iterable<Vegetable> getVegetables() {
         return vegetableDAO.findAll();
     }
 
     @GetMapping("/{vegetable_id}")
-    public Optional<Vegetable> getUser(@PathVariable(value = "vegetable_id") Long vegetable_id) {
+    public Optional<Vegetable> getVegetable(@PathVariable(value = "vegetable_id") Long vegetable_id) {
         return vegetableDAO.findById(vegetable_id);
     }
 }
