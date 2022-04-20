@@ -30,11 +30,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String jwt = Arrays.stream(request.getCookies())
+        String jwt = null;
+        if (request.getCookies() != null) {
+           jwt = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("jwt-token"))
                 .findFirst()
                 .map(Cookie::getValue)
                 .orElse(null);
+        }
 
         String email = null;
 

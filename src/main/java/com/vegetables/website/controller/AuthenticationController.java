@@ -3,7 +3,6 @@ package com.vegetables.website.controller;
 import com.vegetables.website.dao.ApplicationUserDAO;
 import com.vegetables.website.model.ApplicationUser;
 import com.vegetables.website.model.AuthenticationRequest;
-import com.vegetables.website.model.AuthenticationResponse;
 import com.vegetables.website.security.JwtUtil;
 import com.vegetables.website.service.DetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -45,7 +44,7 @@ public class AuthenticationController {
         this.applicationUserDAO = applicationUserDAO;
     }
 
-    @GetMapping("/sign-up")
+    @GetMapping("/signup")
     public String getSignupPage() {
         return "signup";
     }
@@ -55,14 +54,16 @@ public class AuthenticationController {
         return "login";
     }
 
-    @PostMapping("/sign-up")
-    public void signUp(ApplicationUser user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        applicationUserDAO.save(user);
+    @PostMapping("/signup")
+    public void signUp(@RequestBody String data) {
+        System.out.println(data);
+//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//        applicationUserDAO.save(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
@@ -70,6 +71,7 @@ public class AuthenticationController {
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password", e);
         }
+
         final UserDetails userDetails = detailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
 
