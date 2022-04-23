@@ -19,7 +19,9 @@ public class DetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println("EMAIL: " + email);
         ApplicationUser user = applicationUserDAO.findByEmail(email);
+        System.out.println(user);
         return new User(email, "{bcrypt}" + user.getPassword(), new ArrayList<>());
     }
 

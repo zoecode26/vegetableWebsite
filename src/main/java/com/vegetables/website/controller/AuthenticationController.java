@@ -7,7 +7,6 @@ import com.vegetables.website.security.JwtUtil;
 import com.vegetables.website.service.DetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,11 +14,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -55,15 +53,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public void signUp(@RequestBody String data) {
-        System.out.println(data);
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//        applicationUserDAO.save(user);
+    public void signUp(@RequestBody ApplicationUser user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        applicationUserDAO.save(user);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
@@ -75,17 +72,28 @@ public class AuthenticationController {
         final UserDetails userDetails = detailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        ResponseCookie springCookie = ResponseCookie.from("jwt-token", jwt)
-                .httpOnly(true)
-                .secure(false)
-                .path("/")
-                .maxAge(3600)
-                .domain("localhost")
-                .build();
+        System.out.println("JWT: " + jwt);
+        Cookie jwtCookie = new Cookie("jwt-token", jwt);
+        Cookie emailCookie = new Cookie("email", authenticationRequest.getEmail());
+        response.addCookie(jwtCookie);
+        response.addCookie(emailCookie);
+        return ResponseEntity.ok().body(jwt);
+    }
 
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.SET_COOKIE, springCookie.toString())
-                .build();
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/authstatus")
+    public ResponseEntity createAuthenticationToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie: cookies) {
+            if (cookie.getName().equals("jwt-token")) {
+                long expiration = jwtUtil.extractExpiration(cookie.getValue()).toInstant().toEpochMilli();
+                if (expiration > System.currentTimeMillis()) {
+                    return ResponseEntity.ok().build();
+                }
+            }
+        }
+
+        return ResponseEntity.badRequest().build();
+
     }
 }
