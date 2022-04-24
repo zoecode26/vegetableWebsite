@@ -42,7 +42,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             Cookie jwtCookie = new Cookie("jwt-token", null);
             jwtCookie.setMaxAge(0);
+            Cookie emailCookie = new Cookie("email", null);
+            emailCookie.setMaxAge(0);
             response.addCookie(jwtCookie);
+            response.addCookie(emailCookie);
         }
 
         jwt = null;

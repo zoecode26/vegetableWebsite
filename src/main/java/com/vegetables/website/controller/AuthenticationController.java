@@ -3,6 +3,7 @@ package com.vegetables.website.controller;
 import com.vegetables.website.dao.ApplicationUserDAO;
 import com.vegetables.website.model.ApplicationUser;
 import com.vegetables.website.model.AuthenticationRequest;
+import com.vegetables.website.model.UserIdRequest;
 import com.vegetables.website.security.JwtUtil;
 import com.vegetables.website.service.DetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,12 @@ public class AuthenticationController {
         }
 
         return ResponseEntity.badRequest().build();
+    }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/userid")
+    public ResponseEntity<?> getUserIdFromEmail(@RequestBody UserIdRequest userIdRequest, HttpServletResponse response) throws Exception {
+        ApplicationUser user = applicationUserDAO.findByEmail(userIdRequest.getEmail());
+        return ResponseEntity.ok(user.getId());
     }
 }

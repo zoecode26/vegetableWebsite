@@ -2,7 +2,6 @@ package com.vegetables.website.controller;
 
 import com.vegetables.website.dao.BoxedVegetableDAO;
 import com.vegetables.website.model.BoxedVegetable;
-import com.vegetables.website.model.DisplayBox;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
