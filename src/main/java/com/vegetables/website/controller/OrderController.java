@@ -7,12 +7,8 @@ import com.vegetables.website.model.OrderItem;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @Controller
 public class OrderController {
@@ -33,9 +29,8 @@ public class OrderController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/orderitems")
-    public void saveOrderItems(@RequestBody List<OrderItem> orderItems) throws Exception {
-        for (OrderItem item: orderItems) {
-            orderItemsDAO.save(item);
-        }
+    public ResponseEntity<?> saveOrderItems(@RequestBody OrderItem item) {
+        orderItemsDAO.save(item);
+        return ResponseEntity.ok().build();
     }
 }
