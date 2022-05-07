@@ -20,15 +20,19 @@ public class Order {
     @Column
     @NotEmpty
     private Date orderDate;
+    @Column
+    @NotEmpty
+    private String imgPath;
 
     public Order() {
     }
 
-    public Order(long id, @NotEmpty long webUserId, @NotEmpty float price, @NotEmpty Date orderDate, @NotEmpty Date deliveryDate) {
+    public Order(long id, @NotEmpty long webUserId, @NotEmpty float price, @NotEmpty Date orderDate, @NotEmpty Date deliveryDate, @NotEmpty String imgPath) {
         this.id = id;
         this.webUserId = webUserId;
         this.price = price;
         this.orderDate = orderDate;
+        this.imgPath = imgPath;
     }
 
     public long getId() {
@@ -63,17 +67,12 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id == order.id && webUserId == order.webUserId && Float.compare(order.price, price) == 0 && Objects.equals(orderDate, order.orderDate);
+    public String getImgPath() {
+        return imgPath;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, webUserId, price, orderDate);
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     @Override
@@ -83,6 +82,20 @@ public class Order {
                 ", webUserId=" + webUserId +
                 ", price=" + price +
                 ", orderDate=" + orderDate +
+                ", imgPath='" + imgPath + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && webUserId == order.webUserId && Float.compare(order.price, price) == 0 && Objects.equals(orderDate, order.orderDate) && Objects.equals(imgPath, order.imgPath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, webUserId, price, orderDate, imgPath);
     }
 }
