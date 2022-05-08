@@ -17,6 +17,8 @@ public class BoxController {
 
     @GetMapping("")
     public Iterable<Box> getUsers() {
+        System.out.println("REACHING BOXES");
+        System.out.println(boxDAO.findAll());
         return boxDAO.findAll();
     }
 
