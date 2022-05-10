@@ -1,6 +1,11 @@
 package com.vegetables.website.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
@@ -10,17 +15,20 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column
     @NotEmpty
     private long orderId;
+
     @Column
     @NotEmpty
     private long boxId;
+
     @Column
     @NotEmpty
     private int quantity;
 
-    public OrderItem() {}
+    public OrderItem() { }
 
     public OrderItem(long id, long orderId, long boxId, int quantity) {
         this.id = id;
@@ -66,7 +74,8 @@ public class OrderItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderItem orderItem = (OrderItem) o;
-        return id == orderItem.id && orderId == orderItem.orderId && boxId == orderItem.boxId && quantity == orderItem.quantity;
+        return id == orderItem.id && orderId == orderItem.orderId
+                && boxId == orderItem.boxId && quantity == orderItem.quantity;
     }
 
     @Override

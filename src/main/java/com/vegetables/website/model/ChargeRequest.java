@@ -3,7 +3,7 @@ package com.vegetables.website.model;
 public class ChargeRequest {
 
     public enum Currency {
-        EUR, USD, GBP;
+        GBP;
     }
 
     private String email;
@@ -38,9 +38,7 @@ public class ChargeRequest {
         this.stripeToken = stripeToken;
     }
 
-    public int getAmount() {
-        return amount;
-    }
+    public int getAmount() { return amount; }
 
     public void setAmount(int amount) {
         this.amount = amount;

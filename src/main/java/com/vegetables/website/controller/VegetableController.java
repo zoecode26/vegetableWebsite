@@ -2,9 +2,13 @@ package com.vegetables.website.controller;
 
 import com.vegetables.website.dao.VegetableDAO;
 import com.vegetables.website.model.Vegetable;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 @RequestMapping(value = "/vegetables", method = { RequestMethod.GET})
 public class VegetableController {

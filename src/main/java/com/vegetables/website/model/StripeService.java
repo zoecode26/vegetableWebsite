@@ -1,19 +1,22 @@
 package com.vegetables.website.model;
 
 import com.stripe.Stripe;
-import com.stripe.exception.*;
+import com.stripe.exception.APIConnectionException;
+import com.stripe.exception.APIException;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.exception.CardException;
+import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Charge;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class StripeService {
-
-    @Value("sk_test_51Ko3PfKGarRscSW72H0jDeb8r3fUzJi0bB5iZYzcHsZiG7cXTL7MLvhJziieOFqX4Z0IR2eZoTfspfbWVbxR6KOg00TfShHSLD")
+    @Value(
+        "sk_test_51Ko3PfKGarRscSW72H0jDeb8r3fUzJi0bB5iZYzcHsZiG7cXTL7MLvhJziieOFqX4Z0IR2eZoTfspfbWVbxR6KOg00TfShHSLD")
     private String secretKey;
 
     @PostConstruct

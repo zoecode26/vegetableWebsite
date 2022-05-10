@@ -2,9 +2,12 @@ package com.vegetables.website.controller;
 
 import com.vegetables.website.dao.BoxDAO;
 import com.vegetables.website.model.Box;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/boxes", method = { RequestMethod.GET })
@@ -17,8 +20,6 @@ public class BoxController {
 
     @GetMapping("")
     public Iterable<Box> getUsers() {
-        System.out.println("REACHING BOXES");
-        System.out.println(boxDAO.findAll());
         return boxDAO.findAll();
     }
 

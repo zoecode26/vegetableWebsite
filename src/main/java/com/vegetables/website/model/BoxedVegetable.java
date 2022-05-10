@@ -1,7 +1,12 @@
 package com.vegetables.website.model;
 
-import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "boxed_vegetables")
@@ -54,7 +59,8 @@ public class BoxedVegetable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BoxedVegetable that = (BoxedVegetable) o;
-        return Objects.equals(id, that.id) && Objects.equals(vegetableId, that.vegetableId) && Objects.equals(boxId, that.boxId);
+        return Objects.equals(id, that.id) && Objects.equals(vegetableId, that.vegetableId)
+                && Objects.equals(boxId, that.boxId);
     }
 
     @Override

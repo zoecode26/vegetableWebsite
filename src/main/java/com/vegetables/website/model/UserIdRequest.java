@@ -5,8 +5,7 @@ import java.util.Objects;
 public class UserIdRequest {
     private String email;
 
-    public UserIdRequest() {
-    }
+    public UserIdRequest() { }
 
     public UserIdRequest(String email) {
         this.email = email;

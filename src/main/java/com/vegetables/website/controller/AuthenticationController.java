@@ -5,9 +5,10 @@ import com.vegetables.website.model.ApplicationUser;
 import com.vegetables.website.model.AuthenticationRequest;
 import com.vegetables.website.model.UserIdRequest;
 import com.vegetables.website.security.JwtUtil;
-import com.vegetables.website.service.DetailsService;
+import com.vegetables.website.security.DetailsService;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,11 +16,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class AuthenticationController {
@@ -59,7 +58,6 @@ public class AuthenticationController {
         applicationUserDAO.save(user);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws Exception {
         try {
@@ -73,7 +71,6 @@ public class AuthenticationController {
         final UserDetails userDetails = detailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        System.out.println("JWT: " + jwt);
         Cookie jwtCookie = new Cookie("jwt-token", jwt);
         Cookie emailCookie = new Cookie("email", authenticationRequest.getEmail());
         response.addCookie(jwtCookie);
@@ -81,23 +78,6 @@ public class AuthenticationController {
         return ResponseEntity.ok().body(jwt);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/authstatus")
-    public ResponseEntity createAuthenticationToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie: cookies) {
-            if (cookie.getName().equals("jwt-token")) {
-                long expiration = jwtUtil.extractExpiration(cookie.getValue()).toInstant().toEpochMilli();
-                if (expiration > System.currentTimeMillis()) {
-                    return ResponseEntity.ok().build();
-                }
-            }
-        }
-
-        return ResponseEntity.badRequest().build();
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/userid")
     public ResponseEntity<?> getUserIdFromEmail(@RequestBody UserIdRequest userIdRequest, HttpServletResponse response) throws Exception {
         ApplicationUser user = applicationUserDAO.findByEmail(userIdRequest.getEmail());

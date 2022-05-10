@@ -1,8 +1,13 @@
 package com.vegetables.website.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "boxes")
@@ -31,10 +36,10 @@ public class Box {
     @NotEmpty
     private String alt;
 
-    public Box() {
-    }
+    public Box() { }
 
-    public Box(long id, @NotEmpty String boxName, @NotEmpty float price, @NotEmpty String boxDescription, @NotEmpty String imagePath, @NotEmpty String alt) {
+    public Box(long id, @NotEmpty String boxName, @NotEmpty float price, @NotEmpty String boxDescription,
+               @NotEmpty String imagePath, @NotEmpty String alt) {
         this.id = id;
         this.boxName = boxName;
         this.price = price;
@@ -96,7 +101,9 @@ public class Box {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Box box = (Box) o;
-        return id == box.id && Float.compare(box.price, price) == 0 && Objects.equals(boxName, box.boxName) && Objects.equals(boxDescription, box.boxDescription) && Objects.equals(imagePath, box.imagePath) && Objects.equals(alt, box.alt);
+        return id == box.id && Float.compare(box.price, price) == 0 && Objects.equals(boxName, box.boxName)
+                && Objects.equals(boxDescription, box.boxDescription) && Objects.equals(imagePath, box.imagePath)
+                && Objects.equals(alt, box.alt);
     }
 
     @Override

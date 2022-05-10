@@ -2,10 +2,13 @@ package com.vegetables.website.controller;
 
 import com.vegetables.website.dao.BoxedVegetableDAO;
 import com.vegetables.website.model.BoxedVegetable;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/boxed-vegetables", method = { RequestMethod.GET})
@@ -14,11 +17,6 @@ public class BoxedVegetableController {
 
     public BoxedVegetableController(BoxedVegetableDAO boxedVegetableDAO) {
         this.boxedVegetableDAO = boxedVegetableDAO;
-    }
-
-    @GetMapping("")
-    public Iterable<BoxedVegetable> getAllDisplayBoxes() {
-        return boxedVegetableDAO.findAll();
     }
 
     @GetMapping("/{box_id}")

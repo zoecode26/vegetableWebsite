@@ -1,9 +1,14 @@
 package com.vegetables.website.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Objects;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.Objects;
 
 @Entity
 @Table(name = "application_user")
@@ -16,34 +21,44 @@ public class ApplicationUser {
     @NotEmpty
     @Column(unique=true)
     private String email;
+
     @Column
     @NotEmpty
     private String password;
+
     @Column
     @NotEmpty
     private String firstName;
+
     @Column
     @NotEmpty
     private String surname;
+
     @Column
     @NotEmpty
     private Long phoneNumber;
+
     @Column
     @NotEmpty
     private String addressLineOne;
+
     @Column
     private String addressLineTwo;
+
     @Column
     private String county;
+
     @Column
     private String city;
+
     @Column
     @NotEmpty
     private String postcode;
 
     public ApplicationUser() {}
 
-    public ApplicationUser(long id, String email, String password, String firstName, String surname, Long phoneNumber, String addressLineOne, String addressLineTwo, String county, String city, String postcode) {
+    public ApplicationUser(long id, String email, String password, String firstName, String surname, Long phoneNumber,
+                           String addressLineOne, String addressLineTwo, String county, String city, String postcode) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -150,12 +165,17 @@ public class ApplicationUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ApplicationUser that = (ApplicationUser) o;
-        return id == that.id && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(firstName, that.firstName) && Objects.equals(surname, that.surname) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(addressLineOne, that.addressLineOne) && Objects.equals(addressLineTwo, that.addressLineTwo) && Objects.equals(county, that.county) && Objects.equals(city, that.city) && Objects.equals(postcode, that.postcode);
+        return id == that.id && Objects.equals(email, that.email) && Objects.equals(password, that.password)
+                && Objects.equals(firstName, that.firstName) && Objects.equals(surname, that.surname)
+                && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(addressLineOne, that.addressLineOne)
+                && Objects.equals(addressLineTwo, that.addressLineTwo) && Objects.equals(county, that.county)
+                && Objects.equals(city, that.city) && Objects.equals(postcode, that.postcode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, firstName, surname, phoneNumber, addressLineOne, addressLineTwo, county, city, postcode);
+        return Objects.hash(id, email, password, firstName, surname, phoneNumber, addressLineOne, addressLineTwo,
+                county, city, postcode);
     }
 
     @Override

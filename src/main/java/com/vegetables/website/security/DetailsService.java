@@ -1,15 +1,14 @@
-package com.vegetables.website.service;
+package com.vegetables.website.security;
 
 import com.vegetables.website.dao.ApplicationUserDAO;
 import com.vegetables.website.model.ApplicationUser;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class DetailsService implements UserDetailsService {
@@ -19,9 +18,7 @@ public class DetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println("EMAIL: " + email);
         ApplicationUser user = applicationUserDAO.findByEmail(email);
-        System.out.println(user);
         return new User(email, "{bcrypt}" + user.getPassword(), new ArrayList<>());
     }
 
