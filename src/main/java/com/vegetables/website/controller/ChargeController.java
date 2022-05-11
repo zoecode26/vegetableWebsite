@@ -10,6 +10,7 @@ import com.stripe.model.Charge;
 import com.vegetables.website.model.ChargeRequest;
 import com.vegetables.website.model.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,14 +24,16 @@ public class ChargeController {
     private StripeService paymentsService;
 
     @PostMapping("/charge")
-    public void charge(@RequestBody ChargeRequest chargeRequest) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException {
+    public ResponseEntity<?> charge(@RequestBody ChargeRequest chargeRequest) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException {
         chargeRequest.setDescription("VeggieBox Order");
         chargeRequest.setCurrency(ChargeRequest.Currency.GBP);
         Charge charge = paymentsService.charge(chargeRequest);
+        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler(StripeException.class)
-    public void handleError(Model model, StripeException ex) {
+    public ResponseEntity<?> handleError(Model model, StripeException ex) {
         model.addAttribute("error", ex.getMessage());
+        return ResponseEntity.internalServerError().build();
     }
 }
