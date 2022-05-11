@@ -23,16 +23,14 @@ public class ChargeController {
     private StripeService paymentsService;
 
     @PostMapping("/charge")
-    public String charge(@RequestBody ChargeRequest chargeRequest) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException {
+    public void charge(@RequestBody ChargeRequest chargeRequest) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException {
         chargeRequest.setDescription("VeggieBox Order");
         chargeRequest.setCurrency(ChargeRequest.Currency.GBP);
         Charge charge = paymentsService.charge(chargeRequest);
-        return "result";
     }
 
     @ExceptionHandler(StripeException.class)
-    public String handleError(Model model, StripeException ex) {
+    public void handleError(Model model, StripeException ex) {
         model.addAttribute("error", ex.getMessage());
-        return "result";
     }
 }
