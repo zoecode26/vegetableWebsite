@@ -26,7 +26,7 @@ public class ChargeController {
     @PostMapping("/charge")
     public ResponseEntity<?> charge(@RequestBody ChargeRequest chargeRequest) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException {
         chargeRequest.setDescription("VeggieBox Order");
-        chargeRequest.setCurrency(ChargeRequest.Currency.GBP);
+        chargeRequest.setCurrency("GBP");
         Charge charge = paymentsService.charge(chargeRequest);
         return ResponseEntity.ok().build();
     }

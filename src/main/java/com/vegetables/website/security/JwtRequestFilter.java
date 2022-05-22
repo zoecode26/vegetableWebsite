@@ -2,6 +2,7 @@ package com.vegetables.website.security;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import javax.servlet.FilterChain;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
     @Autowired
     private DetailsService detailsService;
 
@@ -27,13 +28,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+        boolean returnOk = false;
+        System.out.println(request.getServletPath());
+        if(request.getServletPath().startsWith("/boxes") || request.getServletPath().startsWith("/boxed-vegetables") || request.getServletPath().startsWith("/vegetables")){
+            System.out.println("Setting to true");
+            returnOk = true;
+        }
+
+        System.out.println("IN JWT FILTER");
         String jwt = null;
-        if (request.getCookies() != null) {
-            jwt = Arrays.stream(request.getCookies())
-                    .filter(c -> c.getName().equals("jwt-token"))
-                    .findFirst()
-                    .map(Cookie::getValue)
-                    .orElse(null);
+        String authToken = request.getHeader("Authorization");
+        System.out.println(authToken);
+        if (authToken != null) {
+            jwt = authToken.split(" ")[1];
         }
 
         try {
@@ -47,11 +54,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             response.addCookie(emailCookie);
         }
 
-        jwt = null;
         String email = null;
-
         if (jwt != null) {
             email = jwtUtil.extractUsername(jwt);
+        }
+
+        System.out.println(jwt);
+        System.out.println(email);
+
+        if (email == null && !returnOk) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -61,9 +73,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                System.out.println("AUTH TOKEN: " + authenticationToken);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                returnOk = true;
             }
         }
+
+        if (returnOk) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+
+        System.out.println(response.getStatus());
+
         chain.doFilter(request, response);
     }
 }

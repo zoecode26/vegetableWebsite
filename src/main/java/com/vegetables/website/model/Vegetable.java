@@ -1,22 +1,17 @@
 package com.vegetables.website.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "vegetables")
 public class Vegetable {
-
-    enum PriceBracket {
-        LOW,
-        MEDIUM,
-        HIGH
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,10 +19,6 @@ public class Vegetable {
     @Column
     @NotEmpty
     private String vegetableName;
-
-    @Column
-    @NotEmpty
-    private String priceBracket;
 
     @Column
     @NotEmpty
@@ -40,10 +31,9 @@ public class Vegetable {
     public Vegetable() {
     }
 
-    public Vegetable(long id, @NotEmpty String vegetableName, @NotEmpty String priceBracket, @NotEmpty String iconPath, @NotEmpty String alt) {
+    public Vegetable(long id, @NotEmpty String vegetableName, @NotEmpty String iconPath, @NotEmpty String alt) {
         this.id = id;
         this.vegetableName = vegetableName;
-        this.priceBracket = priceBracket;
         this.iconPath = iconPath;
         this.alt = alt;
     }
@@ -62,14 +52,6 @@ public class Vegetable {
 
     public void setVegetableName(String vegetableName) {
         this.vegetableName = vegetableName;
-    }
-
-    public String getPriceBracket() {
-        return priceBracket;
-    }
-
-    public void setPriceBracket(String priceBracket) {
-        this.priceBracket = priceBracket;
     }
 
     public String getIconPath() {
@@ -93,12 +75,13 @@ public class Vegetable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vegetable vegetable = (Vegetable) o;
-        return id == vegetable.id && Objects.equals(vegetableName, vegetable.vegetableName) && priceBracket == vegetable.priceBracket && Objects.equals(iconPath, vegetable.iconPath) && Objects.equals(alt, vegetable.alt);
+        return id == vegetable.id && Objects.equals(vegetableName, vegetable.vegetableName)
+                && Objects.equals(iconPath, vegetable.iconPath) && Objects.equals(alt, vegetable.alt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, vegetableName, priceBracket, iconPath, alt);
+        return Objects.hash(id, vegetableName, iconPath, alt);
     }
 
     @Override
@@ -106,7 +89,6 @@ public class Vegetable {
         return "Vegetable{" +
                 "id=" + id +
                 ", vegetableName='" + vegetableName + '\'' +
-                ", priceBracket=" + priceBracket +
                 ", iconPath='" + iconPath + '\'' +
                 ", alt='" + alt + '\'' +
                 '}';

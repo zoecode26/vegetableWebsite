@@ -1,20 +1,15 @@
 package com.vegetables.website.model;
 
 public class ChargeRequest {
-
-    public enum Currency {
-        GBP;
-    }
-
     private String email;
     private String stripeToken;
     private int amount;
-    private Currency currency;
+    private String currency;
     private String description;
 
     public ChargeRequest() { }
 
-    public ChargeRequest(String email, String stripeToken, int amount, Currency currency, String description) {
+    public ChargeRequest(String email, String stripeToken, int amount, String currency, String description) {
         this.email = email;
         this.stripeToken = stripeToken;
         this.amount = amount;
@@ -44,11 +39,11 @@ public class ChargeRequest {
         this.amount = amount;
     }
 
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 
