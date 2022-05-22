@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-    private final String SECRET_KEY = "secret";
+    private final String SECRET_KEY = System.getenv("JWT_SECRET");
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

@@ -28,19 +28,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        boolean returnOk = false;
-        System.out.println(request.getServletPath());
-        if(request.getServletPath().startsWith("/boxes") || request.getServletPath().startsWith("/boxed-vegetables") || request.getServletPath().startsWith("/vegetables")){
-            System.out.println("Setting to true");
-            returnOk = true;
-        }
+        boolean returnOk = request.getServletPath().startsWith("/boxes")
+                || request.getServletPath().startsWith("/boxed-vegetables")
+                || request.getServletPath().startsWith("/vegetables");
 
-        System.out.println("IN JWT FILTER");
         String jwt = null;
         String authToken = request.getHeader("Authorization");
-        System.out.println(authToken);
         if (authToken != null) {
-            jwt = authToken.split(" ")[1];
+            String[] splitToken = authToken.split(" ");
+            if (splitToken.length > 1) {
+                jwt = authToken.split(" ")[1];
+            }
         }
 
         try {
@@ -59,9 +57,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             email = jwtUtil.extractUsername(jwt);
         }
 
-        System.out.println(jwt);
-        System.out.println(email);
-
         if (email == null && !returnOk) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
@@ -73,7 +68,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                System.out.println("AUTH TOKEN: " + authenticationToken);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 returnOk = true;
             }
@@ -82,8 +76,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (returnOk) {
             response.setStatus(HttpServletResponse.SC_OK);
         }
-
-        System.out.println(response.getStatus());
 
         chain.doFilter(request, response);
     }
